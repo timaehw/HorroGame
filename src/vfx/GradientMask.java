@@ -5,22 +5,33 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class GradientMask {
 
     Player player;
     GamePanel gp;
-
+    BufferedImage radialGradientImage;
+    File vfxFile;
     public GradientMask(main.GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+         try {
+     			radialGradientImage = ImageIO.read(getClass().getResourceAsStream("/vfx/radialGradient.png"));
+     		} catch (IOException e) {
+      			e.printStackTrace();
+     		}
     }
 
     public void paintGradientMask(Graphics2D g2){
-
+     
         //Draw Circle
         g2.setColor(Color.black);
-        Arc2D visibleCircle = new Arc2D() {
+        /*Arc2D visibleCircle = new Arc2D() {
             @Override
             public double getAngleStart() {
                 return 0;
@@ -70,7 +81,8 @@ public class GradientMask {
             public boolean isEmpty() {
                 return false;
             }
-        };
+        };*/
+        
         //Alpha filters to gradient between.
 
         //Darkest
@@ -83,23 +95,21 @@ public class GradientMask {
         AlphaComposite ac3 =
                 AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.0F);
 
-        //Entire screen gradient
-        g2.setComposite(ac);
-
+        AlphaComposite ac4 =
+        		AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.99F);
         // Gradient Paint is for entire Rectangles.
         //GradientPaint gradientPaint = new GradientPaint(50.0f,50.0f,Color.black,0.3f,0.8f,Color.black);
         //g2.setPaint(gradientPaint);
-
-
-        g2.fillRect(0,0,gp.screenWidth, gp.screenHeight);
-
+        //g2.fillRect(0,0,gp.screenWidth, gp.screenHeight);
         //Set Paint needs to be set here if you're filling an entire rectangle.
         //g2.setPaint();
-
-        g2.draw(visibleCircle);
-
+        //g2.draw(visibleCircle);
         //Select outside of 100% visibility
 
+      //Entire screen gradient
+        g2.setComposite(ac4);
+        g2.drawImage(radialGradientImage, 0, 0, gp.screenWidth, gp.screenHeight,null);
+        
 
     }
 

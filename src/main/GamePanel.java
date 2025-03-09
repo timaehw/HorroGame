@@ -3,6 +3,8 @@ package main;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
+import vfx.GradientMask;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -47,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
    public SuperObject obj[] = new SuperObject[10];
 
     // Testing goes below
-    //GradientMask gm = new GradientMask(this, player);
+    GradientMask gm = new GradientMask(this, player);
 
     //diagnostics below again, FPS listed here as it spits to the console for debugging
     int FPS = 60;
@@ -148,7 +150,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         //Entities.Player redrawn
         player.draw(g2);
-        //gm.paintGradientMask(g2);
+        gm.paintGradientMask(g2);
 
         //always dispose
         g2.dispose();
